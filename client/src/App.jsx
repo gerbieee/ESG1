@@ -34,7 +34,7 @@ export default function App() {
 						</h1>
 					</div>
 					<div className="flex flex-col w-9/12 q-gap-5 items-center font-helvetica">
-						<h1 className="q-mb-6 q-text-2xl font-bold text-dark">
+						<h1 className="q-mb-6 q-text-2xl font-bold text-tertiary">
 							{isRegistering ? "Register Account" : "Account Sign-in"}
 						</h1>
 						{/* login form */}
@@ -46,7 +46,7 @@ export default function App() {
 											Email Address / Student Number
 										</label>
 										<input
-											className={`w-full q-h-14 p-4 q-text-base text-dark focus:bg-primary q-rounded-xl ${
+											className={`w-full q-h-14 p-4 q-text-base text-tertiary focus:bg-primary q-rounded-xl ${
 												isCredentialsValid
 													? "bg-secondary"
 													: "px-3.5 bg-red-200 border-2 border-red-600"
@@ -63,7 +63,7 @@ export default function App() {
 										</label>
 										<div className="flex gap-1 ">
 											<input
-												className={`w-full q-h-14 p-4 q-text-base text-dark focus:bg-primary q-rounded-l-xl rounded-r ${
+												className={`w-full q-h-14 p-4 q-text-base text-tertiary focus:bg-primary q-rounded-l-xl rounded-r ${
 													isCredentialsValid
 														? "bg-secondary"
 														: "px-3.5 bg-red-200 border-2 border-red-600"
@@ -140,7 +140,7 @@ export default function App() {
 									Register
 								</button>
 							</>
-						)}
+						)}						
 					</div>
 				</div>
 			</div>
