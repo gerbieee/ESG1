@@ -6,7 +6,8 @@ module.exports = {
 			colors: {
 				primary: "#F5F5F5",
 				secondary: "#E2E2E2",
-				tertiary: "#565656",
+				tertiary: "#777777",
+				dark: "#222222",
 				highlight: "#134713",
 				"highlight-light": "#1b651b",
 				accent: "#ffef00",
@@ -35,23 +36,29 @@ module.exports = {
 				".q-gap-20": {
 					"@apply 2xl:gap-20 lg:gap-16 gap-14": {},
 				},
-				".q-gap-14": {
-					"@apply 2xl:gap-14 lg:gap-12 gap-10": {},
+				".q-gap-12": {
+					"@apply 2xl:gap-12 lg:gap-10 gap-8": {},
 				},
 				".q-gap-5": {
 					"@apply 2xl:gap-5 lg:gap-4 gap-3": {},
 				},
-				".q-text-4xl": {
-					"@apply 2xl:text-4xl lg:text-3xl md:text-2xl text-2xl": {},
+				".q-mb-10": {
+					"@apply 2xl:mb-10 lg:mb-8 mb-6": {},
 				},
-				".q-text-xl": {
-					"@apply 2xl:text-xl lg:text-lg text-base": {},
+				".q-mb-6": {
+					"@apply 2xl:mb-6 lg:mb-4 mb-2": {},
+				},
+				".q-text-4xl": {
+					"@apply 2xl:text-4xl lg:text-3xl text-2xl": {},
+				},
+				".q-text-2xl": {
+					"@apply 2xl:text-2xl lg:text-xl text-lg": {},
 				},
 				".q-text-lg": {
 					"@apply 2xl:text-lg lg:text-base text-sm": {},
 				},
 				".q-text-base": {
-					"@apply 2xl:text-base lg:text-sm text-sm": {},
+					"@apply 2xl:text-base lg:text-sm text-xs": {},
 				},
 				".q-text-sm": {
 					"@apply 2xl:text-sm lg:text-xs text-xs": {},
