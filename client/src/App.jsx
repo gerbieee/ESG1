@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
 import CvsuLogo from "./assets/cvsu-logo.png";
 import BacoorCampus from "./assets/bacoor-campus.png";
 import HidePasswordTertiary from "./assets/hide-password-tertiary.svg";
@@ -13,12 +15,17 @@ export default function App() {
 	const [password, setPassword] = useState("");
 	const [isCredentialsValid, setIsCredentialsValid] = useState(true);
 	const [isPasswordShown, setIsPasswordShown] = useState(false);
+	const [isRegistering, setIsRegistering] = useState(false);
+
+	function checkBackend() {
+		axios.get("/api/check");
+	}
 
 	return (
 		<div className="relatve flex flex-row">
 			<div className="relative z-10 flex flex-col q-w-5-12 w-full h-screen md:p-0 p-4">
-				<div className="flex flex-col h-full q-gap-20 justify-center items-center bg-primary md:rounded-none rounded-lg">
-					<div className="flex w-10/12 gap-4 justify-center items-center">
+				<div className="flex flex-col h-full justify-center items-center bg-primary md:rounded-none rounded-lg">
+					<div className="flex w-10/12 q-mb-10 gap-4 justify-center items-center">
 						<img className="q-h-16" src={CvsuLogo} />
 						<h1 className="q-text-4xl text-nowrap q-leading-8 text-highlight font-helvetica-compressed">
 							CAVITE STATE UNIVERSITY
@@ -27,49 +34,62 @@ export default function App() {
 						</h1>
 					</div>
 					<div className="flex flex-col w-9/12 q-gap-5 items-center font-helvetica">
-						{/* login input */}
+						<h1 className="q-mb-6 q-text-2xl font-bold text-dark">
+							{isRegistering ? "Register Account" : "Account Sign-in"}
+						</h1>
+						{/* login form */}
 						<div className="relative flex flex-col w-full items-center q-gap-5">
-							<div className="flex flex-col w-full">
-								<label className="ml-1 mb-1 q-text-base font-bold text-tertiary">
-									Email Address / Student Number
-								</label>
-								<input
-									className={`${
-										isCredentialsValid ? "bg-secondary" : "bg-red-200 border-2 border-red-600"
-									} w-full q-h-14 p-4 q-text-xl text-tertiary focus:bg-primary q-rounded-xl`}
-									id="email"
-									value={email}
-									onChange={(e) => setEmail(e.target.value)}
-									onClick={() => setIsCredentialsValid(true)}
-								/>
-							</div>
-							<div className="flex flex-col w-full">
-								<label className="ml-1 mb-1 q-text-base font-bold text-tertiary">Password</label>
-								<div className="flex gap-1 ">
-									<input
-										className={`w-full q-h-14 p-4 q-text-xl text-tertiary focus:bg-primary q-rounded-l-xl rounded-r ${
-											isCredentialsValid ? "bg-secondary" : "bg-red-200 border-2 border-red-600"
-										}`}
-										type={isPasswordShown ? "text" : "password"}
-										value={password}
-										onChange={(e) => setPassword(e.target.value)}
-										onClick={() => setIsCredentialsValid(true)}
-									/>
-									<button
-										className="group px-5 pt-0.5 bg-secondary hover:bg-highlight rounded-l q-rounded-r-xl"
-										onClick={() => setIsPasswordShown(!isPasswordShown)}
-									>
-										<img
-											className="group-hover:hidden q-w-6"
-											src={isPasswordShown ? ShowPasswordTertiary : HidePasswordTertiary}
+							{!isRegistering && (
+								<>
+									<div className="flex flex-col w-full">
+										<label className="ml-1 mb-1 q-text-base font-bold text-tertiary">
+											Email Address / Student Number
+										</label>
+										<input
+											className={`w-full q-h-14 p-4 q-text-base text-dark focus:bg-primary q-rounded-xl ${
+												isCredentialsValid
+													? "bg-secondary"
+													: "px-3.5 bg-red-200 border-2 border-red-600"
+											}`}
+											id="email"
+											value={email}
+											onChange={(e) => setEmail(e.target.value)}
+											onClick={() => setIsCredentialsValid(true)}
 										/>
-										<img
-											className="group-hover:block hidden w-6"
-											src={isPasswordShown ? ShowPasswordPrimary : HidePasswordPrimary}
-										/>
-									</button>
-								</div>
-							</div>
+									</div>
+									<div className="flex flex-col w-full">
+										<label className="ml-1 mb-1 q-text-base font-bold text-tertiary">
+											Password
+										</label>
+										<div className="flex gap-1 ">
+											<input
+												className={`w-full q-h-14 p-4 q-text-base text-dark focus:bg-primary q-rounded-l-xl rounded-r ${
+													isCredentialsValid
+														? "bg-secondary"
+														: "px-3.5 bg-red-200 border-2 border-red-600"
+												}`}
+												type={isPasswordShown ? "text" : "password"}
+												value={password}
+												onChange={(e) => setPassword(e.target.value)}
+												onClick={() => setIsCredentialsValid(true)}
+											/>
+											<button
+												className="group px-5 pt-0.5 bg-secondary hover:bg-highlight rounded-l q-rounded-r-xl"
+												onClick={() => setIsPasswordShown(!isPasswordShown)}
+											>
+												<img
+													className="group-hover:hidden q-w-6"
+													src={isPasswordShown ? ShowPasswordTertiary : HidePasswordTertiary}
+												/>
+												<img
+													className="group-hover:block hidden w-6"
+													src={isPasswordShown ? ShowPasswordPrimary : HidePasswordPrimary}
+												/>
+											</button>
+										</div>
+									</div>
+								</>
+							)}
 							{/* modal */}
 							<div
 								className={`absolute -bottom-28 flex justify-center drop-shadow-[0_4px_10px_rgba(0,0,0,0.4)] modal-anim ${
@@ -89,30 +109,38 @@ export default function App() {
 						</div>
 						{/* login input */}
 						{/* sign in button */}
-						<button
-							className="group flex w-full q-h-14 q-gap-5 mt-7 justify-center items-center bg-highlight hover:bg-highlight-light disabled:bg-secondary q-rounded-xl"
-							disabled={!(email.length > 0 && password.length > 0)}
-						>
-							<p className="q-text-lg text-primary group-disabled:text-tertiary font-bold">
-								Sign in
-							</p>
-							<img className="group-disabled:hidden" src={ArrowRightPrimary} />
-							<img className="group-disabled:block hidden" src={ArrowRightTertiary} />
-						</button>
-						{/* sign in button */}
-						<div className="flex flex-col w-full q-gap-14 my-4 items-center">
-							<button className="q-text-lg text-tertiary hover:text-highlight">
-								Forgot password?
-							</button>
-							<div className="w-full h-0.5 bg-tertiary rounded"></div>
-							<p className="q-text-lg text-tertiary">New CvSU Bacoor student?</p>
-						</div>
-						<button
-							className="w-7/12 q-h-14 q-text-lg font-bold text-primary bg-highlight hover:bg-highlight-light q-rounded-xl"
-							onClick={() => setIsCredentialsValid(!isCredentialsValid)}
-						>
-							Register
-						</button>
+						{!isRegistering && (
+							<>
+								<button
+									className="group flex w-full q-h-14 q-gap-5 mt-7 justify-center items-center bg-highlight hover:bg-highlight-light disabled:bg-secondary q-rounded-xl"
+									disabled={!(email.length > 0 && password.length > 0)}
+								>
+									<p className="q-text-base text-primary group-disabled:text-tertiary font-bold">
+										Sign In
+									</p>
+									<img className="group-disabled:hidden" src={ArrowRightPrimary} />
+									<img className="group-disabled:block hidden" src={ArrowRightTertiary} />
+								</button>
+								{/* sign in button */}
+								<div className="flex flex-col w-full q-gap-12 my-4 items-center">
+									<button
+										className="q-text-base text-tertiary hover:text-highlight"
+										onClick={() => setIsCredentialsValid(!isCredentialsValid)}
+										onMouseEnter={checkBackend}
+									>
+										Forgot Password?
+									</button>
+									<div className="w-full h-0.5 bg-tertiary rounded"></div>
+									<p className="q-text-base text-tertiary">New Student of CvSU Bacoor?</p>
+								</div>
+								<button
+									className="w-7/12 q-h-14 q-text-base font-bold text-primary bg-highlight hover:bg-highlight-light q-rounded-xl"
+									onClick={() => setIsRegistering(true)}
+								>
+									Register
+								</button>
+							</>
+						)}
 					</div>
 				</div>
 			</div>
