@@ -23,6 +23,10 @@ server.listen(8080, () => {
 	console.log("Connected to the server.");
 });
 
+server.get("/", () => {
+	console.log("good mourning.")
+})
+
 server.post("/api/register-student-account", async (req, res) => {
 	// recieve info from user
 	const { email, password } = req.body;

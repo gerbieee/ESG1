@@ -1,15 +1,18 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import dotenv from "dotenv"
 
-const NODE_ENV = process.env.REACT_APP_NODE_ENV;
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+dotenv.config();
+
+const ENV = process.env.VITE_ENV || "development";
+const BACKEND_URL = process.env.VITE_BACKEND_URL || "http://localhost:8080";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/api": NODE_ENV !== "production" ? "http://localhost:8080" : BACKEND_URL,
+      "/api": ENV !== "production" ? "http://localhost:8080" : BACKEND_URL,
       secure: false,
     },
   },
