@@ -3,6 +3,8 @@ import { AnimatePresence } from "framer-motion";
 import PropTypes from "prop-types";
 import axios from "axios";
 
+import { useAppContext } from "../AppContext";
+
 import Modal from "../components/Modal.jsx";
 import InputModal from "../components/InputModal.jsx";
 
@@ -23,6 +25,7 @@ AuthPage.propTypes = {
 };
 
 export default function AuthPage({ email, setEmail, password, setPassword }) {
+  const { apiUrl } = useAppContext();
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isCredentialsValid, setIsCredentialsValid] = useState(true);
   const [isPasswordShown, setIsPasswordShown] = useState(false);
@@ -71,7 +74,7 @@ export default function AuthPage({ email, setEmail, password, setPassword }) {
     }
 
     try {
-      const res = await axios.post("/api/register-student-account", {
+      const res = await axios.post(`${apiUrl}/api/register-student-account`, {
         email,
         password,
       });
@@ -112,7 +115,7 @@ export default function AuthPage({ email, setEmail, password, setPassword }) {
     }
 
     try {
-      const res = await axios.post("/api/sign-in", { email, password });
+      const res = await axios.post(`${apiUrl}/api/sign-in`, { email, password });
 
       setIsModalOpen(true);
       setModalMessage("You have successfully signed in!");
