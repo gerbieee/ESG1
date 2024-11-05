@@ -30,7 +30,7 @@ server.listen(8080, () => {
 });
 
 server.get("/", () => {
-	console.log("good mourning.");
+	res.json("good mourning.")
 });
 
 server.post("/api/register-student-account", async (req, res) => {
