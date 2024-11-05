@@ -115,6 +115,7 @@ export default function AuthPage({ email, setEmail, password, setPassword }) {
     }
 
     try {
+      console.log(`${apiUrl}/api/sign-in`)
       const res = await axios.post(`${apiUrl}/api/sign-in`, { email, password });
 
       setIsModalOpen(true);
