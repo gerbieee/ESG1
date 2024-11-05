@@ -26,10 +26,6 @@ const db = mysql.createPool({
 	port: process.env.DB_PORT,
 });
 
-server.listen(8080, () => {
-	console.log("Connected to the server.");
-});
-
 server.get("/", (_, res) => {
 	res.json("good mourning.");
 });
@@ -113,4 +109,8 @@ server.post("/api/sign-in", async (req, res) => {
 		console.error(err);
 		return res.status(500).json({ error: "An error occurred while querying the database." });
 	}
+});
+
+server.listen(8080, () => {
+	console.log("Connected to the server.");
 });
