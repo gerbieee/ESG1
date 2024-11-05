@@ -11,7 +11,7 @@ const server = express();
 server.use(express.json());
 server.use(
 	cors({
-		origin: ENV !== "production" ? "http://localhost:5173" : "https://cvsu-bacoor.vercel.app",
+		origin: process.env.ENV !== "production" ? "http://localhost:5173" : "https://cvsu-bacoor.vercel.app",
 		methods: ["GET", "POST"],
 		credentials: true,
 	})
