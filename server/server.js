@@ -10,12 +10,7 @@ const server = express();
 
 server.use(express.json());
 server.use(
-	cors({
-		origin:
-			process.env.ENV !== "production" ? "http://localhost:5173" : "https://cvsu-bacoor.vercel.app",
-		methods: ["GET", "POST"],
-		credentials: true,
-	})
+	cors()
 );
 
 const db = mysql.createPool({
