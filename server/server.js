@@ -9,7 +9,16 @@ dotenv.config();
 const server = express();
 
 server.use(express.json());
-server.use(cors());
+server.use(
+	cors({
+		origin:
+			ENV !== "production"
+				? "http://localhost:5173"
+				: ["https://esg1-client-1my6jcy5w-cheiron.vercel.app", "https://cvsu-bacoor.vercel.app"],
+		methods: ["GET", "POST"],
+		credentials: true,
+	})
+);
 
 const db = mysql.createPool({
 	host: process.env.DB_HOST,
@@ -24,8 +33,8 @@ server.listen(8080, () => {
 });
 
 server.get("/", () => {
-	console.log("good mourning.")
-})
+	console.log("good mourning.");
+});
 
 server.post("/api/register-student-account", async (req, res) => {
 	// recieve info from user
@@ -52,7 +61,7 @@ server.post("/api/register-student-account", async (req, res) => {
 
 		// encrypt password
 		const hashedPassword = await bcrypt.hash(password, 8);
-		
+
 		// insert new account to db
 		await db.query(
 			`
@@ -85,20 +94,20 @@ server.post("/api/sign-in", async (req, res) => {
 			`,
 			[email]
 		);
-		
+
 		// respond with error
 		if (getAccount.length === 0) {
 			return res.status(404).json({ message: "Invalid sign in credentials." });
 		}
-		
+
 		// check if passwords match
-		const isPasswordMatched = await bcrypt.compare(password, getAccount[0].password)
-		
+		const isPasswordMatched = await bcrypt.compare(password, getAccount[0].password);
+
 		// respond with error
 		if (!isPasswordMatched) {
 			return res.status(404).json({ message: "Invalid sign in credentials." });
 		}
-		
+
 		// respond with sucess
 		return res.status(200).json({ message: "Account signed in." });
 	} catch (err) {
