@@ -11,7 +11,8 @@ const server = express();
 server.use(express.json());
 server.use(
 	cors({
-		origin: process.env.ENV !== "production" ? "http://localhost:5173" : "https://cvsu-bacoor.vercel.app",
+		origin:
+			process.env.ENV !== "production" ? "http://localhost:5173" : "https://cvsu-bacoor.vercel.app",
 		methods: ["GET", "POST"],
 		credentials: true,
 	})
@@ -29,8 +30,8 @@ server.listen(8080, () => {
 	console.log("Connected to the server.");
 });
 
-server.get("/", () => {
-	res.json("good mourning.")
+server.get("/", (_, res) => {
+	res.json("good mourning.");
 });
 
 server.post("/api/register-student-account", async (req, res) => {
