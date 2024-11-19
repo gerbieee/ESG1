@@ -14,6 +14,7 @@ module.exports = {
       },
       fontFamily: {
         helvetica: ["Helvetica", "sans"],
+        montserrat: ["Montserrat", "sans"],
         "helvetica-compressed": ["Helvetica Compressed", "sans"],
       },
     },

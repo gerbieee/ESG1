@@ -3,7 +3,7 @@ import { AnimatePresence } from "framer-motion";
 import PropTypes from "prop-types";
 import axios from "axios";
 
-import { useAppContext } from "../AppContext";
+import { useAppContext } from "../context/AppContext.jsx";
 
 import Modal from "../components/Modal.jsx";
 import InputModal from "../components/InputModal.jsx";
@@ -22,9 +22,16 @@ AuthPage.propTypes = {
   setEmail: PropTypes.func.isRequired,
   password: PropTypes.string.isRequired,
   setPassword: PropTypes.func.isRequired,
+  setIsLoggedIn: PropTypes.func.isRequired,
 };
 
-export default function AuthPage({ email, setEmail, password, setPassword }) {
+export default function AuthPage({
+  email,
+  setEmail,
+  password,
+  setPassword,
+  setIsLoggedIn,
+}) {
   const { apiUrl } = useAppContext();
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isCredentialsValid, setIsCredentialsValid] = useState(true);
@@ -58,7 +65,7 @@ export default function AuthPage({ email, setEmail, password, setPassword }) {
           Please enter a valid email.
         </>,
       );
-      
+
       return;
     } else if (password !== confirmPassword) {
       setIsCredentialsValid(false);
@@ -115,11 +122,15 @@ export default function AuthPage({ email, setEmail, password, setPassword }) {
     }
 
     try {
-      const res = await axios.post(`${apiUrl}/api/sign-in`, { email, password });
+      const res = await axios.post(`${apiUrl}/api/sign-in`, {
+        email,
+        password,
+      });
 
       setIsModalOpen(true);
       setModalMessage("You have successfully signed in!");
       setModalIcon("Checkmark");
+      setIsLoggedIn(true);
 
       console.log({ status: res.status, message: res.data.message });
     } catch (err) {
@@ -148,7 +159,7 @@ export default function AuthPage({ email, setEmail, password, setPassword }) {
   }, [isRegistering]);
 
   return (
-    <div className="relatve flex flex-row font-helvetica">
+    <div className="relative flex flex-row font-montserrat">
       <AnimatePresence initial={false} mode="wait">
         {isModalOpen && (
           <Modal
